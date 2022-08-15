@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductService implements IProductService {
-    public final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\qhmobile\\data\\products.csv";
+    public final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\caseStudy2\\qhmobile\\data\\products.csv";
     private static ProductService instanceProduct;
 
     public static ProductService getInstanceProduct() {

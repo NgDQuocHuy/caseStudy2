@@ -1,17 +1,12 @@
 package menu;
 
-import models.Product;
-import models.User;
-import services.IProductService;
 import utils.AppUtils;
 import views.OrderView;
 import views.ProductView;
 import views.SortView;
 import views.UserView;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -26,9 +21,8 @@ public class Menu {
             System.out.println("╔═══════════════════════════════════════════════╗");
             System.out.println("║                  ► QH Store ◄                 ║");
             System.out.println("╠═══════════════════════════════════════════════╣");
-            System.out.println("║       1.     Đăng nhập (User)                 ║");
-            System.out.println("║       2.     Đăng nhập (Admin)                ║");
-            System.out.println("║       3.     Tạo tài khoản (User)             ║");
+            System.out.println("║       1.     Đăng nhập                        ║");
+            System.out.println("║       2.     Tạo tài khoản                    ║");
             System.out.println("║       0.     Thoát chương trình               ║");
             System.out.println("╚═══════════════════════════════════════════════╝");
             System.out.println("Chọn chức năng: ");
@@ -37,12 +31,9 @@ public class Menu {
                 choice = input.nextLine();
                 switch (choice) {
                     case "1":
-                        loginUser();
+                        UserView.login();
                         break;
                     case "2":
-                        loginAdmin();
-                        break;
-                    case "3":
                         UserView.signin();
                         break;
                     case "0":
@@ -59,47 +50,13 @@ public class Menu {
         }
     }
 
-    //      Cần hàm sử lý
-    public static void loginUser() {
-        System.out.println();
-        System.out.println("══════════► Đăng Nhập ◄══════════");
-        System.out.println("Vui lòng nhập tài khoản:");
-        System.out.print("=> ");
-        System.out.println("Vui lòng nhập mật khẩu:");
-        System.out.print("=> ");
-        System.out.println("Đăng nhập thành công.");
-        System.out.println("Tài khoản hoặc Mật khẩu không đúng.");
-    }
-
-    public static void loginAdmin() {
-        boolean login = true;
-        do {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println();
-            System.out.println("══════════► Đăng Nhập ◄══════════");
-            System.out.println("Vui lòng nhập tài khoản:");
-            System.out.print("=> ");
-            String username = scanner.nextLine();
-            System.out.println("Vui lòng nhập mật khẩu:");
-            System.out.print("=> ");
-            String password = scanner.nextLine();
-            if (username.equals("admin") && password.equals("admin")) {
-                System.out.println("Đăng nhập thành công.");
-                login = false;
-                menuAdmin();
-            } else if (username == null || password == null || !username.equals("admin") && !password.equals("admin")) {
-                System.out.println("Tài khoản hoặc Mật khẩu không đúng.");
-            }
-        } while (login);
-    }
-
     public static void menuAdmin() {
         try {
             boolean flag = true;
             String choice;
             System.out.println();
             System.out.println("╔═══════════════════════════════════════════════╗");
-            System.out.println("║                   ► Menu ◄                    ║");
+            System.out.println("║                ► Menu Quản Lý ◄               ║");
             System.out.println("╠═══════════════════════════════════════════════╣");
             System.out.println("║       1.     Quản lý sản phẩm                 ║");
             System.out.println("║       2.     Quản lý đơn hàng                 ║");
@@ -136,7 +93,45 @@ public class Menu {
         }
     }
 
-    //      Chưa có hàm xử lý
+    public static void menuUser() {
+        try {
+            boolean flag = true;
+            String choice;
+            System.out.println();
+            System.out.println("╔═══════════════════════════════════════════════╗");
+            System.out.println("║                   ► Menu ◄                    ║");
+            System.out.println("╠═══════════════════════════════════════════════╣");
+            System.out.println("║       1.     Xem sản phẩm                     ║");
+            System.out.println("║       2.     Đặt sản phẩm                     ║");
+            System.out.println("║       0.     Quay lại màn hình đăng nhập      ║");
+            System.out.println("╚═══════════════════════════════════════════════╝");
+            System.out.println("Chọn chức năng: ");
+            System.out.print("=> ");
+            do {
+                choice = input.nextLine();
+                switch (choice) {
+                    case "1":
+                        productView.showProductListShowUser();
+                        break;
+                    case "2":
+                        OrderView.addOrderUser();
+                        break;
+                    case "0":
+                        qhStore();
+                        break;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ vui lòng nhập lại.");
+                        System.out.print("=> ");
+                        flag = false;
+                }
+            } while (!flag);
+        } catch (InputMismatchException io) {
+            io.printStackTrace();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
     public static void menuManageProduct() {
         try {
             boolean flag = true;
@@ -190,7 +185,6 @@ public class Menu {
         }
     }
 
-    //      Chưa có hàm sử lý
     public static void menuManageOrder() {
         try {
             boolean flag = true;
@@ -201,7 +195,7 @@ public class Menu {
             System.out.println("╠═════════════════════════════════════════╣");
             System.out.println("║       1.     Tạo đơn hàng               ║");
             System.out.println("║       2.     Xem danh sách Order        ║");
-            System.out.println("║       0.     Quay lại Menu Admin        ║");
+            System.out.println("║       0.     Quay lại menu quản lý      ║");
             System.out.println("╚═════════════════════════════════════════╝");
             System.out.println("Chọn chức năng: ");
             System.out.print("=> ");
@@ -228,7 +222,6 @@ public class Menu {
         }
     }
 
-    //      Chưa có hàm sử lý
     public static void menuManageUsers() {
         try {
             boolean flag = true;
@@ -239,15 +232,23 @@ public class Menu {
             System.out.println("╠═════════════════════════════════════════╣");
             System.out.println("║       1.     Xem danh sách Users        ║");
             System.out.println("║       2.     Xóa Users                  ║");
+            System.out.println("║       3.     Set Role Users             ║");
             System.out.println("║       0.     Quay lại Menu Admin        ║");
             System.out.println("╚═════════════════════════════════════════╝");
-            System.out.print("Chọn chức năng: ");
+            System.out.println("Chọn chức năng: ");
             System.out.print("=> ");
             do {
                 choice = input.nextLine();
                 switch (choice) {
                     case "1":
+                        UserView.showUserListChoice();
+                        break;
                     case "2":
+                        UserView.removeUser();
+                        break;
+                    case "3":
+                        UserView.setRoleUser();
+                        break;
                     case "0":
                         menuAdmin();
                         break;

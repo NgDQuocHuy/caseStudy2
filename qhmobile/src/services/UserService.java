@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserService  implements IUserService{
-    public final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\qhmobile\\data\\users.csv";
+    public final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\caseStudy2\\qhmobile\\data\\users.csv";
     private static UserService instanceUser;
     public UserService() {}
 
@@ -77,6 +77,10 @@ public class UserService  implements IUserService{
                 if (address != null && !address.isEmpty()) {
                     oldUser.setAddress(address);
                 }
+                String role = newUser.getRole();
+                if (role != null && !role.isEmpty()) {
+                    oldUser.setRole(role);
+                }
                 oldUser.setTimeCreatUser(Instant.now());
                 CSVUtils.write(PATH, users);
                 break;
@@ -88,7 +92,7 @@ public class UserService  implements IUserService{
     public User findIdUser(Long idUser) {
         List<User> users = findAllUsers();
         for (User user : users) {
-            if (user.getIdUser() == idUser){
+            if (user.getIdUser().equals(idUser)) {
                 return user;
             }
         }
@@ -132,4 +136,5 @@ public class UserService  implements IUserService{
         }
         return false;
     }
+
 }

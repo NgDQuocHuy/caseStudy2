@@ -5,6 +5,7 @@ import models.Product;
 import services.ProductService;
 import services.sortService.*;
 import utils.AppUtils;
+import utils.InstantUtils;
 
 import java.util.List;
 import java.util.Scanner;
@@ -26,7 +27,8 @@ public class SortView {
             System.out.println("║       3.     Sắp xếp theo giá sản phẩm                 ║");
             System.out.println("║       0.     Quay lại quản lý sản phẩm                 ║");
             System.out.println("╚════════════════════════════════════════════════════════╝");
-            System.out.print("Chọn chức năng: ");
+            System.out.println("Chọn chức năng: ");
+            System.out.print("=> ");
             do {
                 choice = input.nextLine();
                 switch (choice) {
@@ -65,7 +67,8 @@ public class SortView {
             System.out.println("║       2.     ID sản phẩm giảm dần                      ║");
             System.out.println("║       0.     Quay lại xắp xếp sản phẩm                 ║");
             System.out.println("╚════════════════════════════════════════════════════════╝");
-            System.out.print("Chọn chức năng: ");
+            System.out.println("Chọn chức năng: ");
+            System.out.print("=> ");
             do {
                 choice = input.nextLine();
                 switch (choice) {
@@ -101,7 +104,8 @@ public class SortView {
             System.out.println("║       2.     Tên sản phẩm Z -> A                       ║");
             System.out.println("║       0.     Quay lại xắp xếp sản phẩm                 ║");
             System.out.println("╚════════════════════════════════════════════════════════╝");
-            System.out.print("Chọn chức năng: ");
+            System.out.println("Chọn chức năng: ");
+            System.out.print("=> ");
             do {
                 choice = input.nextLine();
                 switch (choice) {
@@ -137,7 +141,8 @@ public class SortView {
             System.out.println("║       2.     Giảm sản phẩm giảm dần                    ║");
             System.out.println("║       0.     Quay lại xắp xếp sản phẩm                 ║");
             System.out.println("╚════════════════════════════════════════════════════════╝");
-            System.out.print("Chọn chức năng: ");
+            System.out.println("Chọn chức năng: ");
+            System.out.print("=> ");
             do {
                 choice = input.nextLine();
                 switch (choice) {
@@ -210,7 +215,7 @@ public class SortView {
     }
 
     public static void showSortList(List<Product> products) {
-
+        System.out.println();
         System.out.println("══════════════════════════════════════ Danh Sách Sản Phẩm ═════════════════════════════════════════");
         System.out.printf("%-25s %-20s %-20s %-20s\n", "ID", "Tên Sản Phẩm", "Số lượng", "Giá");
         System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────");
@@ -218,13 +223,14 @@ public class SortView {
             System.out.printf("%-25s %-20s %-20s %-20s\n",
                     product.getIdProduct(),
                     product.getTitle(),
-                    product.getQuantity(),
-                    product.getPrice());
+                    InstantUtils.quantityProducts(product.getQuantity()),
+                    InstantUtils.doubleToVND(product.getPrice()));
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════════════════════════");
         int choice;
         do {
             System.out.println("Nhấn 0 để quay lại sắp xếp sản phẩm.");
+            System.out.print("=> ");
             choice = AppUtils.retryParseInt();
         } while (choice != 0);
     }

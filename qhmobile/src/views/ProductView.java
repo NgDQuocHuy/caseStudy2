@@ -5,6 +5,7 @@ import models.Product;
 import services.IProductService;
 import services.ProductService;
 import utils.AppUtils;
+import utils.InstantUtils;
 
 import java.util.List;
 import java.util.Scanner;
@@ -150,6 +151,7 @@ public class ProductView {
         try {
             showProductList();
             System.out.println("Nhập ID sản phẩm cần sửa");
+            System.out.print("=> ");
             Long id = AppUtils.retryParseLong();
             if (productService.exitsById(id)) {
                 boolean flagUpdate = true;
@@ -189,7 +191,7 @@ public class ProductView {
                 } while (!flagUpdate);
             } else {
                 System.out.println("Không tìm thấy ID sản phầm.");
-                editProduct();
+                ContinueOrExist();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -201,8 +203,8 @@ public class ProductView {
         newProduct.setTitle(title);
         productService.editProduct(newProduct);
         System.out.println("Tên sản phẩm đã được cập nhật.");
-        showProductListShow();
-        Menu.menuManageProduct();
+        showProductList();
+        ContinueOrExist();
     }
 
     private void editPrice(Product newProduct) {
@@ -210,8 +212,8 @@ public class ProductView {
         newProduct.setPrice(price);
         productService.editProduct(newProduct);
         System.out.println("Giá sản phẩm đã được cập nhật.");
-        showProductListShow();
-        Menu.menuManageProduct();
+        showProductList();
+        ContinueOrExist();
     }
 
     private void editQuantity(Product newProduct) {
@@ -219,8 +221,8 @@ public class ProductView {
         newProduct.setQuantity(quantity);
         productService.editProduct(newProduct);
         System.out.println("Số lượng sản phẩm đã được cập nhật.");
-        showProductListShow();
-        Menu.menuManageProduct();
+        showProductList();
+        ContinueOrExist();
     }
 
     public void removeProduct() {
@@ -261,6 +263,7 @@ public class ProductView {
     }
 
     public void showProductList() {
+        System.out.println();
         System.out.println("══════════════════════════════════════ Danh Sách Sản Phẩm ═════════════════════════════════════════");
         System.out.printf("%-25s %-20s %-20s %-20s\n", "ID", "Tên Sản Phẩm", "Số lượng", "Giá");
         System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────");
@@ -268,8 +271,8 @@ public class ProductView {
             System.out.printf("%-25s %-20s %-20s %-20s\n",
                     product.getIdProduct(),
                     product.getTitle(),
-                    product.getQuantity(),
-                    product.getPrice());
+                    InstantUtils.quantityProducts(product.getQuantity()),
+                    InstantUtils.doubleToVND(product.getPrice()));
         }
         System.out.println("═══════════════════════════════════════════════════════════════════════════════════════════════════");
     }
@@ -279,6 +282,7 @@ public class ProductView {
         int choice;
         do {
             System.out.println("Nhấn 0 để quay lại quản lý sản phẩm.");
+            System.out.print("=> ");
             choice = AppUtils.retryParseInt();
         } while (choice != 0);
     }
@@ -286,6 +290,11 @@ public class ProductView {
     public void showProductListShowOutMenu() {
         showProductListShow();
         Menu.menuManageProduct();
+    }
+
+    public void showProductListShowUser() {
+        showProductListShow();
+        Menu.menuUser();
     }
 
     public void findProduct() {
@@ -309,11 +318,9 @@ public class ProductView {
                 switch (choice) {
                     case "1":
                         findByTitle();
-                        findProduct();
                         break;
                     case "2":
                         findById();
-                        findProduct();
                         break;
                     case "0":
                         Menu.menuManageProduct();
@@ -337,6 +344,7 @@ public class ProductView {
         title.toLowerCase();
         List<Product> products = productService.findProductByTitle(title);
         if (products.size() != 0) {
+            System.out.println();
             System.out.println("══════════════════════════════════ Sản phẩm bạn cần tìm là: ═══════════════════════════════════════");
             System.out.printf("%-25s %-20s %-20s %-20s\n", "ID", "Tên Sản Phẩm", "Số lượng", "Giá");
             System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────");
@@ -344,16 +352,18 @@ public class ProductView {
                 System.out.printf("%-25s %-20s %-20s %-20s\n",
                         product.getIdProduct(),
                         product.getTitle(),
-                        product.getQuantity(),
-                        product.getPrice());
+                        InstantUtils.quantityProducts(product.getQuantity()),
+                        InstantUtils.doubleToVND(product.getPrice()));
             }
             System.out.println("═══════════════════════════════════════════════════════════════════════════════════════════════════");
             int choice;
             do {
                 System.out.println("Nhấn 0 để quay lại quản lý sản phẩm.");
+                System.out.print("=> ");
                 choice = AppUtils.retryParseInt();
             } while (choice != 0);
         } else {
+            System.out.println();
             System.out.println("══════════════════════════════════ Sản phẩm bạn cần tìm là: ═══════════════════════════════════════");
             System.out.printf("%-25s %-20s %-20s %-20s\n", "ID", "Tên Sản Phẩm", "Số lượng", "Giá");
             System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────");
@@ -362,6 +372,7 @@ public class ProductView {
             int choice;
             do {
                 System.out.println("Nhấn 0 để quay lại quản lý sản phẩm.");
+                System.out.print("=> ");
                 choice = AppUtils.retryParseInt();
             } while (choice != 0);
         }
@@ -370,24 +381,28 @@ public class ProductView {
 
     public void findById() {
         System.out.println("Nhập ID sản phẩm muốn tìm");
+        System.out.print("=> ");
         Long id = AppUtils.retryParseLong();
         Product product = productService.checkId(id);
         if (product != null) {
+            System.out.println();
             System.out.println("══════════════════════════════════ Sản phẩm bạn cần tìm là: ═══════════════════════════════════════");
             System.out.printf("%-25s %-20s %-20s %-20s\n", "ID", "Tên Sản Phẩm", "Số lượng", "Giá");
             System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────");
             System.out.printf("%-25s %-20s %-20s %-20s\n",
                     product.getIdProduct(),
                     product.getTitle(),
-                    product.getQuantity(),
-                    product.getPrice());
+                    InstantUtils.quantityProducts(product.getQuantity()),
+                    InstantUtils.doubleToVND(product.getPrice()));
             System.out.println("═══════════════════════════════════════════════════════════════════════════════════════════════════");
             int choice;
             do {
                 System.out.println("Nhấn 0 để quay lại quản lý sản phẩm.");
+                System.out.print("=> ");
                 choice = AppUtils.retryParseInt();
             } while (choice != 0);
         } else {
+            System.out.println();
             System.out.println("══════════════════════════════════ Sản phẩm bạn cần tìm là: ═══════════════════════════════════════");
             System.out.printf("%-25s %-20s %-20s %-20s\n", "ID", "Tên Sản Phẩm", "Số lượng", "Giá");
             System.out.println("───────────────────────────────────────────────────────────────────────────────────────────────────");
@@ -396,9 +411,31 @@ public class ProductView {
             int choice;
             do {
                 System.out.println("Nhấn 0 để quay lại quản lý sản phẩm.");
+                System.out.print("=> ");
                 choice = AppUtils.retryParseInt();
             } while (choice != 0);
         }
         findProduct();
+    }
+
+    public void ContinueOrExist() {
+        boolean is = true;
+        do {
+            System.out.println("Nhấn '1' để tiếp tục \t|\t '2' để trở về quản lý sản phẩm");
+            System.out.print("=> ");
+            String choice = input.nextLine();
+            switch (choice) {
+                case "1":
+                    editProduct();
+                    break;
+                case "2":
+                    Menu.menuManageProduct();
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ, vui lòng nhập lại.");
+                    is = false;
+                    break;
+            }
+        } while (!is);
     }
 }

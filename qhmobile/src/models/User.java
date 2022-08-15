@@ -10,11 +10,12 @@ public class User {
     private String phoneNumber;
     private String email;
     private String address;
+    private String role;
     private Instant timeCreatUser;
 
     public User() {}
 
-    public User(Long idUser, String username, String password, String fullName, String mobile, String email, String address, Instant timeCreatUser) {
+    public User(Long idUser, String username, String password, String fullName, String mobile, String email, String address, String role, Instant timeCreatUser) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
@@ -22,6 +23,7 @@ public class User {
         this.phoneNumber = mobile;
         this.email = email;
         this.address = address;
+        this.role = role;
         this.timeCreatUser = timeCreatUser;
     }
 
@@ -35,7 +37,8 @@ public class User {
         user.setPhoneNumber(array[4]);
         user.setEmail(array[5]);
         user.setAddress(array[6]);
-        user.setTimeCreatUser(Instant.parse(array[7]));
+        user.setRole(array[7]);
+        user.setTimeCreatUser(Instant.parse(array[8]));
         return user;
     }
 
@@ -103,14 +106,25 @@ public class User {
         this.timeCreatUser = timeCreatUser;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
-        return String.format("%s,%s,%s,%s,%s,%s",
+        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s",
                 idUser,
+                username,
+                password,
                 fullName,
                 phoneNumber,
                 email,
                 address,
+                role,
                 timeCreatUser);
     }
 }

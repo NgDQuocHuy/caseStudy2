@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService implements IOrderService{
-    public final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\qhmobile\\data\\orders.csv";
+    public final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\caseStudy2\\qhmobile\\data\\orders.csv";
     private static OrderService instanceOrder;
 
     public OrderService() {};

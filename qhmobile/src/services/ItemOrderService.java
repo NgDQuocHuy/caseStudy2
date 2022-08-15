@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemOrderService implements IItemOrderService{
-    private final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\qhmobile\\data\\items.csv";
+    private final static String PATH = "C:\\Users\\huynd\\OneDrive\\Desktop\\caseStudy2\\caseStudy2\\qhmobile\\data\\items.csv";
     private static ItemOrderService instanceItemOrder;
 
     public ItemOrderService() {}

@@ -23,7 +23,7 @@ public class InstantUtils {
         return decimalFormat.format(value);
     }
     public static String quantityProducts(double value) {
-        String patternVND = "### / thung";
+        String patternVND = "###";
         DecimalFormat decimalFormat = new DecimalFormat(patternVND);
         return decimalFormat.format(value);
     }
